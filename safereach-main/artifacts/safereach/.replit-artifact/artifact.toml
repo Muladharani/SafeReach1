@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SafeReach"
+description = "An emergency shelter discovery and disaster-response app for finding nearby shelters, checking capacity and facilities, viewing demo alerts, getting map directions, and managing shelter data."
+version = "1.0.0"
+id = "artifacts/safereach"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26138
+
+[services.development]
+run = "pnpm --filter @workspace/safereach run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/safereach", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/safereach/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26138"
+BASE_PATH = "/"

@@ -1,0 +1,8 @@
+
+.env
+.env.local
+.env.*.local
+
+lib/db/test-regions.cjs
+
+lib/db/test-regions.cjs

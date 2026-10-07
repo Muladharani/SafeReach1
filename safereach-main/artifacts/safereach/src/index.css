@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 210 35% 97%;
+  --foreground: 216 39% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 216 39% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 216 39% 17%;
+  --primary: 215 72% 28%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 205 38% 93%;
+  --secondary-foreground: 215 55% 25%;
+  --muted: 210 25% 93%;
+  --muted-foreground: 215 15% 47%;
+  --accent: 151 42% 91%;
+  --accent-foreground: 155 46% 25%;
+  --destructive: 0 66% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 212 23% 86%;
+  --input: 212 23% 86%;
+  --ring: 215 72% 28%;
+  --radius: .8rem;
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-serif: 'Manrope', sans-serif;
+  --app-font-mono: 'SFMono-Regular', Consolas, monospace;
+  --sidebar: 215 62% 21%;
+  --sidebar-foreground: 210 26% 95%;
+  --sidebar-border: 215 43% 31%;
+  --sidebar-primary: 157 44% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 215 50% 29%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --chart-1: 215 72% 28%;
+  --chart-2: 150 45% 39%;
+  --chart-3: 38 86% 54%;
+  --chart-4: 0 66% 48%;
+  --chart-5: 194 55% 48%;
+}
+
+.dark {
+  --background: 215 36% 12%;
+  --foreground: 210 25% 94%;
+  --card: 215 30% 17%;
+  --card-foreground: 210 25% 94%;
+  --popover: 215 30% 17%;
+  --popover-foreground: 210 25% 94%;
+  --primary: 210 65% 68%;
+  --primary-foreground: 215 50% 14%;
+  --secondary: 215 28% 24%;
+  --secondary-foreground: 210 25% 94%;
+  --muted: 215 25% 22%;
+  --muted-foreground: 212 16% 68%;
+  --accent: 155 27% 25%;
+  --accent-foreground: 151 39% 82%;
+  --destructive: 0 62% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 215 22% 29%;
+  --input: 215 22% 29%;
+  --ring: 210 65% 68%;
+  --sidebar: 215 41% 10%;
+  --sidebar-foreground: 210 26% 95%;
+  --sidebar-border: 215 30% 21%;
+  --sidebar-primary: 157 44% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 215 34% 18%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --chart-1: 210 65% 68%;
+  --chart-2: 150 45% 54%;
+  --chart-3: 38 86% 62%;
+  --chart-4: 0 66% 62%;
+  --chart-5: 194 55% 62%;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--app-font-sans); background: hsl(var(--background)); color: hsl(var(--foreground)); }
+button, input, select, textarea { font: inherit; }
+button, a, select { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+.app-shell { min-height: 100dvh; }
+.sidebar { background: hsl(var(--sidebar)); color: hsl(var(--sidebar-foreground)); }
+.brand { font-family: var(--app-font-serif); letter-spacing: -.045em; font-weight: 800; }
+.page-title { font-family: var(--app-font-serif); letter-spacing: -.045em; line-height: 1.08; }
+.card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 16px; box-shadow: 0 2px 8px rgba(16, 43, 71, .035); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border-radius: 10px; font-weight: 700; padding: 11px 15px; transition: background .16s ease, transform .16s ease; border: 1px solid transparent; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { color: #fff; background: #174878; }
+.btn-primary:hover { background: #103b65; }
+.btn-secondary { color: #20496f; background: #edf4f8; border-color: #d8e5ee; }
+.btn-secondary:hover { background: #e3eef5; }
+.btn-danger { color: white; background: #b83232; }
+.btn-danger:hover { background: #9d2929; }
+.btn-quiet { color: #36516b; background: transparent; }
+.btn-quiet:hover { background: #edf3f7; }
+.input { width: 100%; min-height: 44px; background: #fff; border: 1px solid #cbd9e3; border-radius: 10px; padding: 10px 12px; color: #17334d; outline: none; }
+.input:focus { border-color: #2a658f; box-shadow: 0 0 0 3px rgba(42,101,143,.12); }
+.label { display: block; color: #42566b; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; margin: 0 0 7px; }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 10px; font-size: 12px; line-height: 1; font-weight: 700; text-transform: capitalize; }
+.status-open { color: #1e6847; background: #e2f3e9; }
+.status-limited { color: #8b5c08; background: #fff1d5; }
+.status-full, .status-closed { color: #a33636; background: #f9e6e4; }
+.severity-critical, .severity-evacuation { color: #a42a2a; background: #fce7e5; }
+.severity-warning { color: #875c0a; background: #fff2d8; }
+.severity-information { color: #235c8b; background: #e6f1f8; }
+.skeleton { border-radius: 9px; background: linear-gradient(90deg, #e7edf1 25%, #f1f4f6 50%, #e7edf1 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.map-pattern { background-color: #e5eee9; background-image: linear-gradient(30deg, transparent 46%, rgba(255,255,255,.9) 47%, rgba(255,255,255,.9) 49%, transparent 50%), linear-gradient(115deg, transparent 42%, rgba(255,255,255,.9) 43%, rgba(255,255,255,.9) 45%, transparent 46%), radial-gradient(ellipse at 20% 70%, #d4e4d5 0 13%, transparent 14%), radial-gradient(ellipse at 75% 30%, #d6e7d8 0 16%, transparent 17%); }
+.map-marker { width: 32px; height: 32px; border: 3px solid white; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 8px #28465c55; display: grid; place-items: center; color: white; }
+.map-marker svg { transform: rotate(45deg); }
+.leaflet-container { z-index: 0; font-family: var(--app-font-sans); background: #e8efeb; }
+.leaflet-control-attribution { font-size: 9px !important; }
+.leaflet-popup-content-wrapper { border-radius: 10px; }
+.leaflet-popup-content { margin: 11px 13px; }
+.leaflet-popup-content a:hover { text-decoration: underline; }
+.tab-active { color: #174878; border-bottom: 2px solid #174878; }
+.muted { color: #64788c; }
+.smallcaps { text-transform: uppercase; letter-spacing: .1em; font-size: 11px; font-weight: 800; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

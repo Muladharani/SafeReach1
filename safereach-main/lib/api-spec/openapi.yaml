@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: SafeReach shelter discovery and emergency response API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: shelters
+  - name: alerts
+  - name: notifications
+  - name: reports
+  - name: dashboard
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /shelters:
+    get:
+      operationId: listShelters
+      tags: [shelters]
+      summary: List shelters
+      parameters:
+        - in: query
+          name: search
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { $ref: "#/components/schemas/ShelterStatus" }
+      responses:
+        "200":
+          description: Shelters
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Shelter" }
+    post:
+      operationId: createShelter
+      tags: [shelters]
+      summary: Add a shelter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShelterInput" }
+      responses:
+        "201":
+          description: Created shelter
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Shelter" }
+  /shelters/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    get:
+      operationId: getShelter
+      tags: [shelters]
+      summary: Get shelter details
+      responses:
+        "200":
+          description: Shelter
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Shelter" }
+        "404": { description: Shelter not found }
+    patch:
+      operationId: updateShelter
+      tags: [shelters]
+      summary: Update a shelter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShelterUpdate" }
+      responses:
+        "200":
+          description: Updated shelter
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Shelter" }
+        "404": { description: Shelter not found }
+    delete:
+      operationId: deleteShelter
+      tags: [shelters]
+      summary: Remove a shelter
+      responses:
+        "204": { description: Shelter removed }
+  /alerts:
+    get:
+      operationId: listAlerts
+      tags: [alerts]
+      summary: List alert history
+      responses:
+        "200":
+          description: Alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Alert" }
+    post:
+      operationId: createAlert
+      tags: [alerts]
+      summary: Create a demo or administrative alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AlertInput" }
+      responses:
+        "201":
+          description: Created alert
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Alert" }
+  /alerts/active:
+    get:
+      operationId: getActiveAlerts
+      tags: [alerts]
+      summary: Get active alerts
+      responses:
+        "200":
+          description: Active alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Alert" }
+  /alerts/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    patch:
+      operationId: updateAlert
+      tags: [alerts]
+      summary: Update an alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AlertUpdate" }
+      responses:
+        "200":
+          description: Updated alert
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Alert" }
+    delete:
+      operationId: deleteAlert
+      tags: [alerts]
+      summary: Delete an alert
+      responses:
+        "204": { description: Alert removed }
+  /alerts/{id}/resolve:
+    post:
+      operationId: resolveAlert
+      tags: [alerts]
+      summary: Resolve an alert
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Resolved alert
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Alert" }
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: List notifications
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Notification" }
+  /notifications/{id}/read:
+    put:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark a notification as read
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Updated notification
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Notification" }
+  /notifications/read-all:
+    put:
+      operationId: markAllNotificationsRead
+      tags: [notifications]
+      summary: Mark all notifications as read
+      responses:
+        "200":
+          description: Updated notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Notification" }
+  /reports:
+    get:
+      operationId: listReports
+      tags: [reports]
+      summary: List community reports
+      responses:
+        "200":
+          description: Reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Report" }
+    post:
+      operationId: createReport
+      tags: [reports]
+      summary: Submit a shelter report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ReportInput" }
+      responses:
+        "201":
+          description: Submitted report
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Report" }
+  /reports/{id}:
+    patch:
+      operationId: updateReport
+      tags: [reports]
+      summary: Update report status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ReportUpdate" }
+      responses:
+        "200":
+          description: Updated report
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Report" }
+  /stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get emergency operations summary
+      responses:
+        "200":
+          description: Dashboard totals
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DashboardStats" }
+  /demo/emergency:
+    post:
+      operationId: triggerDemoEmergency
+      tags: [alerts]
+      summary: Trigger a clearly labeled demonstration emergency
+      responses:
+        "201":
+          description: Demo alert and notification
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DemoEmergencyResult" }
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ShelterStatus:
+      type: string
+      enum: [open, limited, full, closed]
+    ShelterType:
+      type: string
+      enum: [government, school, community_hall, relief_center, ngo]
+    ShelterFacilities:
+      type: object
+      required: [food, water, medical, toilet, electricity, wheelchair, childcare, women_facility, pet_friendly]
+      properties:
+        food: { type: boolean }
+        water: { type: boolean }
+        medical: { type: boolean }
+        toilet: { type: boolean }
+        electricity: { type: boolean }
+        wheelchair: { type: boolean }
+        childcare: { type: boolean }
+        women_facility: { type: boolean }
+        pet_friendly: { type: boolean }
+    Shelter:
+      type: object
+      required: [id, name, address, latitude, longitude, capacity, occupied, status, type, phone, facilities, updatedAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        address: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        capacity: { type: integer }
+        occupied: { type: integer }
+        status: { $ref: "#/components/schemas/ShelterStatus" }
+        type: { $ref: "#/components/schemas/ShelterType" }
+        phone: { type: string }
+        facilities: { $ref: "#/components/schemas/ShelterFacilities" }
+        updatedAt: { type: string, format: date-time }
+    ShelterInput:
+      type: object
+      required: [name, address, latitude, longitude, capacity, occupied, status, type, phone, facilities]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        address: { type: string, minLength: 3, maxLength: 240 }
+        latitude: { type: number, minimum: -90, maximum: 90 }
+        longitude: { type: number, minimum: -180, maximum: 180 }
+        capacity: { type: integer, minimum: 1 }
+        occupied: { type: integer, minimum: 0 }
+        status: { $ref: "#/components/schemas/ShelterStatus" }
+        type: { $ref: "#/components/schemas/ShelterType" }
+        phone: { type: string, maxLength: 32 }
+        facilities: { $ref: "#/components/schemas/ShelterFacilities" }
+    ShelterUpdate:
+      type: object
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        address: { type: string, minLength: 3, maxLength: 240 }
+        latitude: { type: number, minimum: -90, maximum: 90 }
+        longitude: { type: number, minimum: -180, maximum: 180 }
+        capacity: { type: integer, minimum: 1 }
+        occupied: { type: integer, minimum: 0 }
+        status: { $ref: "#/components/schemas/ShelterStatus" }
+        type: { $ref: "#/components/schemas/ShelterType" }
+        phone: { type: string, maxLength: 32 }
+        facilities: { $ref: "#/components/schemas/ShelterFacilities" }
+    AlertSeverity:
+      type: string
+      enum: [information, warning, critical, evacuation]
+    AlertStatus:
+      type: string
+      enum: [draft, active, resolved]
+    Alert:
+      type: object
+      required: [id, type, severity, title, message, location, latitude, longitude, radiusKm, recommendedAction, sirenEnabled, notificationEnabled, status, isDemo, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        type: { type: string }
+        severity: { $ref: "#/components/schemas/AlertSeverity" }
+        title: { type: string }
+        message: { type: string }
+        location: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        radiusKm: { type: number }
+        recommendedAction: { type: string }
+        sirenEnabled: { type: boolean }
+        notificationEnabled: { type: boolean }
+        status: { $ref: "#/components/schemas/AlertStatus" }
+        isDemo: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AlertInput:
+      type: object
+      required: [type, severity, title, message, location, latitude, longitude, radiusKm, recommendedAction, sirenEnabled, notificationEnabled, status]
+      properties:
+        type: { type: string }
+        severity: { $ref: "#/components/schemas/AlertSeverity" }
+        title: { type: string, minLength: 2, maxLength: 120 }
+        message: { type: string, minLength: 2, maxLength: 1000 }
+        location: { type: string }
+        latitude: { type: number, minimum: -90, maximum: 90 }
+        longitude: { type: number, minimum: -180, maximum: 180 }
+        radiusKm: { type: number, minimum: 0, maximum: 500 }
+        recommendedAction: { type: string }
+        sirenEnabled: { type: boolean }
+        notificationEnabled: { type: boolean }
+        status: { $ref: "#/components/schemas/AlertStatus" }
+    AlertUpdate:
+      type: object
+      properties:
+        type: { type: string }
+        severity: { $ref: "#/components/schemas/AlertSeverity" }
+        title: { type: string, minLength: 2, maxLength: 120 }
+        message: { type: string, minLength: 2, maxLength: 1000 }
+        location: { type: string }
+        latitude: { type: number, minimum: -90, maximum: 90 }
+        longitude: { type: number, minimum: -180, maximum: 180 }
+        radiusKm: { type: number, minimum: 0, maximum: 500 }
+        recommendedAction: { type: string }
+        sirenEnabled: { type: boolean }
+        notificationEnabled: { type: boolean }
+        status: { $ref: "#/components/schemas/AlertStatus" }
+    Notification:
+      type: object
+      required: [id, title, message, type, isRead, createdAt, isDemo]
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        message: { type: string }
+        type: { type: string }
+        isRead: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        isDemo: { type: boolean }
+    ReportInput:
+      type: object
+      required: [shelterId, problemType, description]
+      properties:
+        shelterId: { type: integer }
+        problemType: { type: string, enum: [shelter_closed, shelter_full, wrong_location, road_blocked, no_food, no_water, medical_issue, other] }
+        description: { type: string, maxLength: 1200 }
+    ReportUpdate:
+      type: object
+      properties:
+        status: { type: string, enum: [pending, reviewing, resolved] }
+    Report:
+      type: object
+      required: [id, shelterId, shelterName, problemType, description, status, createdAt]
+      properties:
+        id: { type: integer }
+        shelterId: { type: integer }
+        shelterName: { type: string }
+        problemType: { type: string }
+        description: { type: string }
+        status: { type: string, enum: [pending, reviewing, resolved] }
+        createdAt: { type: string, format: date-time }
+    DashboardStats:
+      type: object
+      required: [totalShelters, open, limited, full, closed, totalCapacity, availableCapacity, activeAlerts, pendingReports]
+      properties:
+        totalShelters: { type: integer }
+        open: { type: integer }
+        limited: { type: integer }
+        full: { type: integer }
+        closed: { type: integer }
+        totalCapacity: { type: integer }
+        availableCapacity: { type: integer }
+        activeAlerts: { type: integer }
+        pendingReports: { type: integer }
+    DemoEmergencyResult:
+      type: object
+      required: [alert, notification, recommendation]
+      properties:
+        alert: { $ref: "#/components/schemas/Alert" }
+        notification: { $ref: "#/components/schemas/Notification" }
+        recommendation: { $ref: "#/components/schemas/Shelter" }
+
