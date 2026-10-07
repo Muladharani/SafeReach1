@@ -7,11 +7,6 @@
       "root": "artifacts/api-server",
       "framework": "express"
     },
-    "mockup-sandbox": {
-      "root": "artifacts/mockup-sandbox",
-      "framework": "vite",
-      "outputDirectory": "dist"
-    },
     "safereach": {
       "root": "artifacts/safereach",
       "framework": "vite",
