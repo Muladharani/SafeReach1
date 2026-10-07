@@ -168,6 +168,9 @@ importers:
 
   artifacts/api-server:
     dependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.5.8
+        version: 0.5.8
       '@workspace/api-zod':
         specifier: workspace:*
         version: link:../../lib/api-zod
@@ -631,6 +634,9 @@ importers:
 
   lib/db:
     dependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.5.8
+        version: 0.5.8
       dotenv:
         specifier: ^18.0.5
         version: 18.0.5
@@ -3322,8 +3328,7 @@ snapshots:
 
   '@drizzle-team/brocli@0.10.2': {}
 
-  '@electric-sql/pglite@0.5.8':
-    optional: true
+  '@electric-sql/pglite@0.5.8': {}
 
   '@esbuild/linux-x64@0.28.2':
     optional: true
