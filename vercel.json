@@ -1,33 +1,14 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "api-server": {
-      "root": "artifacts/api-server",
-      "framework": "express"
-    },
-    "mockup-sandbox": {
-      "root": "artifacts/mockup-sandbox",
-      "framework": "vite",
-      "outputDirectory": "dist"
-    },
-    "safereach": {
-      "root": "artifacts/safereach",
-      "framework": "vite",
-      "outputDirectory": "dist/public"
-    }
-  },
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "artifacts/safereach/dist/public",
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": {
-        "service": "api-server"
-      }
+      "destination": "/api/index"
     },
     {
       "source": "/(.*)",
-      "destination": {
-        "service": "safereach"
-      }
+      "destination": "/index.html"
     }
   ]
 }
