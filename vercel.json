@@ -1,5 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm --filter @workspace/safereach build",
+  "outputDirectory": "artifacts/safereach/dist/public",
   "services": {
     "api-server": {
       "root": "artifacts/api-server",
@@ -13,7 +15,6 @@
     "safereach": {
       "root": "artifacts/safereach",
       "framework": "vite",
-      "buildCommand": "pnpm --filter @workspace/safereach build",
       "outputDirectory": "dist/public"
     }
   },
