@@ -1,14 +1,34 @@
 {
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "artifacts/safereach/dist/public",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "api-server": {
+      "root": "artifacts/api-server",
+      "framework": "express"
+    },
+    "mockup-sandbox": {
+      "root": "artifacts/mockup-sandbox",
+      "framework": "vite",
+      "outputDirectory": "dist"
+    },
+    "safereach": {
+      "root": "artifacts/safereach",
+      "framework": "vite",
+      "buildCommand": "pnpm --filter @workspace/safereach build",
+      "outputDirectory": "dist/public"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index"
+      "destination": {
+        "service": "api-server"
+      }
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": {
+        "service": "safereach"
+      }
     }
   ]
 }
